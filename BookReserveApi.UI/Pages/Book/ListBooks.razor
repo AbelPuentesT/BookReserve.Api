@@ -1,0 +1,105 @@
+﻿@page "/"
+@attribute [Authorize]
+@inject IBookServiceUI _bookServiceUI
+@inject NavigationManager navigationManager
+
+<h3>List Books</h3>
+<p>This page show a list of all books</p>
+<div class="mb-3">
+    <a class="btn btn-primary" href="/user-details/@user.Id">my books</a>
+</div>
+<div class="mb-4" style="text-align:center">
+    <h1>Search filters</h1>
+</div>
+<EditForm Model="@filters">
+
+    <div class="table-responsive">
+        <table class="table table-bordered border-dark">
+            <thead class="table-dark">
+                <tr>
+                    <th>Book Title</th>
+                    <th>Book Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th><InputText @bind-Value="@filters.Title"></InputText></th>
+                    <th>
+                        <InputSelect class="form-select" @bind-Value="filters.BookCategory">
+                            <option value="">Select...</option>
+                            @foreach (var category in Enum.GetValues(typeof(Category)))
+                            {
+                                <option value="@category">@category</option>
+                            }
+                        </InputSelect>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary" @onclick="Filtar">Apply filters</button>
+                <button type="button" class="btn btn-primary" @onclick="Cancel">Clean filters</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+
+@if (books == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table ">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Action</th>
+                <th></th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var book in books)
+            {
+                <tr>
+                    <th>@book.Id</th>
+                    <th>@book.Title</th>
+                    <th>@book.Author</th>
+                    <th>@book.BookCategory</th>
+                    <th><a class="btn btn-primary" href="/book-details/@book.Id"><i>Reserve</i></a></th>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    public IEnumerable<Book> books;
+    public User user = new User();
+    public BookQueryFilters filters = new BookQueryFilters();
+    public EventCallback OnInvalidSubmit { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        books = await _bookServiceUI.GetAll(filters);
+    }
+
+    public async Task Filtar()
+    {
+
+        books = await _bookServiceUI.GetAll(filters);
+    }
+
+    public async Task Cancel()
+    {
+        filters.Title = null;
+        filters.BookCategory = null;
+        books = await _bookServiceUI.GetAll(filters);
+    }
+}

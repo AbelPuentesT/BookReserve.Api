@@ -1,0 +1,102 @@
+﻿@page "/book-details/{id:int}"
+@attribute [Authorize]
+@inject IBookServiceUI _bookServiceUI
+@inject NavigationManager navigationManager
+
+<h3>Book Detail</h3>
+<div>
+    <h3>Id: 
+    @book.Id</h3>
+</div>
+<br />
+<div>
+    <h3>Title: @book.Title</h3>
+</div>
+<br />
+<div>
+    <h3>Author: @book.Author</h3>
+
+</div>
+<br />
+<table class="table ">
+    <thead class="table-dark">
+        <tr>
+            <th>Description</th>
+            <th>Image</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        <tr>
+            <th>@book.Description</th>
+            <th>@book.Image</th>
+        </tr>
+    </tbody>
+</table>
+
+<EditForm Model="@book">
+
+    <div class="table-responsive">
+        <table class="table table-bordered border-dark">
+            <thead class="table-dark">
+                <tr>
+                    <th>Days</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th><InputNumber @bind-Value="@book.Days"></InputNumber></th>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary" @onclick="ReserveBook">Reserve</button>
+                <button type="button" class="btn btn-primary" @onclick="Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    public Book book { get; set; } = new Book();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (id != 0)
+        {
+            book = await _bookServiceUI.GetById(id);
+
+        }
+    }
+    protected async Task CreateProduct()
+    {
+        if (id != 0)
+        {
+            await _bookServiceUI.Update(book);
+            navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            //await ProductServiceUi.Insert(product);
+            navigationManager.NavigateTo("/");
+        }
+
+    }
+    public void Cancel()
+    {
+        navigationManager.NavigateTo("/");
+    }
+    public async Task ReserveBook()
+    {
+        book.BookReserve = true;
+        await _bookServiceUI.Update(book);
+        navigationManager.NavigateTo("/");
+
+    }
+
+}

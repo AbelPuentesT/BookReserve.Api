@@ -1,0 +1,58 @@
+﻿@page "/user-details/{id:int}"
+@using BookReserveApi.UI.Data.Migrations;
+
+
+<h3>UserDetails</h3>
+
+<main>
+    <article>
+        <div class="image-container">
+            <img src=@user.Photo class="card-img-top" style="width:auto">
+        </div>
+        <h5 class="card-title">Name: @user.UserName</h5>
+        <p class="card-text">Reserves: @user.Reserves</p>
+    </article>
+</main>
+
+@*@if (books == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table ">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Action</th>
+                <th></th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var book in books)
+            {
+                <tr>
+                    <th>@book.Id</th>
+                    <th>@book.Title</th>
+                    <th>@book.Author</th>
+                    <th>@book.BookCategory</th>
+                    <th><a class="btn btn-primary" href="/book-details/@book.Id"><i>Delete</i></a></th>
+                </tr>
+            }
+        </tbody>
+    </table>*@
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    //public IEnumerable<Book> books;
+
+    public AspNetUser user { get; set; } = new AspNetUser();
+
+}
