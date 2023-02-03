@@ -33,6 +33,5 @@ public partial class AspNetUser
     public int AccessFailedCount { get; set; }
     public int? Reserves { get; set; }
     public byte[]? Photo { get; set; }
-    public virtual ICollection<Book> Books { get; } = new List<Book>();
 
 }

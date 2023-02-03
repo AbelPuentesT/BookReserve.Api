@@ -6,7 +6,7 @@
 <h3>List Books</h3>
 <p>This page show a list of all books</p>
 <div class="mb-3">
-    <a class="btn btn-primary" href="/user-details/@user.Id">my books</a>
+    @*<a class="btn btn-primary" href="/user-details/@user.Id">my books</a>*@
 </div>
 <div class="mb-4" style="text-align:center">
     <h1>Search filters</h1>
@@ -81,7 +81,7 @@ else
 
 @code {
     public IEnumerable<Book> books;
-    public User user = new User();
+    //public AspNetUser user { get; set; } = new AspNetUser();
     public BookQueryFilters filters = new BookQueryFilters();
     public EventCallback OnInvalidSubmit { get; set; }
 

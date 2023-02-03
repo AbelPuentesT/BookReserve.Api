@@ -4,37 +4,40 @@
 @inject NavigationManager navigationManager
 
 <h3>Book Detail</h3>
-<div>
-    <h3>Id: 
-    @book.Id</h3>
-</div>
-<br />
-<div>
-    <h3>Title: @book.Title</h3>
-</div>
-<br />
-<div>
-    <h3>Author: @book.Author</h3>
-
-</div>
-<br />
-<table class="table ">
-    <thead class="table-dark">
-        <tr>
-            <th>Description</th>
-            <th>Image</th>
-        </tr>
-
-    </thead>
-    <tbody>
-        <tr>
-            <th>@book.Description</th>
-            <th>@book.Image</th>
-        </tr>
-    </tbody>
-</table>
-
 <EditForm Model="@book">
+    <div>
+        <h3>
+            Id:
+            @book.Id
+        </h3>
+    </div>
+    <br />
+    <div>
+        <h3>Title: @book.Title</h3>
+    </div>
+    <br />
+    <div>
+        <h3>Author: @book.Author</h3>
+
+    </div>
+    <br />
+    <table class="table ">
+        <thead class="table-dark">
+            <tr>
+                <th>Description</th>
+                <th>Image</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <th>@book.Description</th>
+                <th>@book.Image</th>
+            </tr>
+        </tbody>
+    </table>
+
+
 
     <div class="table-responsive">
         <table class="table table-bordered border-dark">
@@ -73,16 +76,17 @@
 
         }
     }
-    protected async Task CreateProduct()
+
+    public async Task ReserveBook()
     {
         if (id != 0)
         {
+            book.BookReserve = true;
             await _bookServiceUI.Update(book);
             navigationManager.NavigateTo("/");
         }
         else
         {
-            //await ProductServiceUi.Insert(product);
             navigationManager.NavigateTo("/");
         }
 
@@ -90,13 +94,6 @@
     public void Cancel()
     {
         navigationManager.NavigateTo("/");
-    }
-    public async Task ReserveBook()
-    {
-        book.BookReserve = true;
-        await _bookServiceUI.Update(book);
-        navigationManager.NavigateTo("/");
-
     }
 
 }

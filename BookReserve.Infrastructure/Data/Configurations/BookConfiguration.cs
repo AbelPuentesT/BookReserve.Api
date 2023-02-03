@@ -41,8 +41,6 @@ namespace BookReserve.Infrastructure.Data.Configurations
             builder.Property(e => e.BookReserve);
 
             builder.Property(e => e.Days);
-             
-
 
         }
     }

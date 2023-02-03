@@ -23,7 +23,6 @@ namespace BookReserve.Core.Services
             {
                 books = books.Where(x => x.BookCategory == filters.BookCategory);
             }
-
             foreach (var book in books)
             {
                 books = books.Where(x => x.BookReserve == false || x.BookReserve == null);
